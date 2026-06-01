@@ -9,6 +9,32 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+      - name: Cleanup Runner (Based on Ubuntu2404-Readme)
+        run: |
+          sudo snap remove --purge firefox
+          sudo snap remove --purge gnome-42-2204
+          sudo snap remove --purge core22
+          sudo snap remove --purge bare
+          sudo systemctl stop snapd.service
+          sudo apt-get purge -y snapd
+          sudo rm -rf /var/cache/snapd/
+          sudo rm -rf /var/snap
+          sudo rm -rf /var/lib/snapd
+          sudo rm -rf /usr/local/lib/android    # Android SDK (~5GB)
+          sudo rm -rf /usr/share/dotnet         # .NET (~2GB)
+          sudo rm -rf /opt/ghc                  # Haskell (~2GB)
+          sudo rm -rf /usr/local/share/boost    # Boost C++ (~1GB)
+          sudo rm -rf /opt/hostedtoolcache/CodeQL # CodeQL (~1GB)
+          sudo rm -rf "$AGENT_TOOLSDIRECTORY"
+          sudo docker image prune -a -f
+       
+      - name: Configuration du Cache de Compilation (CCACHE)
+        uses: actions/cache@v4
+        with:
+          path: .ccache
+          key: ccache-${{ runner.os }}-${{ github.sha }}
+          restore-keys: |
+            ccache-${{ runner.os }}-
       - name: Install lineage dependancies
         run: |
          export DEBIAN_FRONTEND=noninteractive
@@ -28,6 +54,7 @@ jobs:
          git config --global user.email "github-actions[bot]@users.noreply.github.com"
          git config --global color.ui true
          git lfs install
+         export CCACHE_DIR=$(pwd)/.ccache
       - name: Build 
         run: |
             bash build.sh
