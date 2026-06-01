@@ -1,0 +1,39 @@
+name: LineageOS Build Workflow
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Install lineage dependancies
+        run: |
+         export DEBIAN_FRONTEND=noninteractive
+         sudo  apt-get update && apt-get install -y \
+         bc bison build-essential ccache curl flex g++-multilib gcc-multilib git git-lfs \
+         gnupg gperf imagemagick protobuf-compiler python3-protobuf lib32readline-dev \
+         lib32z1-dev libdw-dev libelf-dev libgnutls28-dev lz4 libsdl1.2-dev libssl-dev \
+         libxml2 libxml2-utils lzop pngcrush rsync schedtool squashfs-tools xsltproc \
+         xxd zip zlib1g-dev meson glslang-tools python3-mako python-is-python3 wget \
+         && rm -rf /var/lib/apt/lists/*
+         wget https://archive.ubuntu.com/ubuntu/pool/universe/n/ncurses/libtinfo5_6.3-2_amd64.deb && sudo dpkg -i libtinfo5_6.3-2_amd64.deb
+         wget https://archive.ubuntu.com/ubuntu/pool/universe/n/ncurses/libncurses5_6.3-2_amd64.deb && sudo dpkg -i libncurses5_6.3-2_amd64.deb
+         rm -f *.deb
+         curl https://storage.googleapis.com/git-repo-downloads/repo > /usr/local/bin/repo && chmod a+x /usr/local/bin/repo
+         export USE_CCACHE=1
+         git config --global user.name "github-actions[bot]"
+         git config --global user.email "github-actions[bot]@users.noreply.github.com"
+         git config --global color.ui true
+         git lfs install
+      - name: Build 
+        run: |
+            bash build.sh
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: qemu-build
+          path: qemu.zip
+          if-no-files-found: error        
