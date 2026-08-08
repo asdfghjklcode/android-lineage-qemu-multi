@@ -8,8 +8,8 @@ on:
         required: true
         type: string
         default: "ubuntu-latest" 
-#  schedule:
-#    - cron: "0 0 */16 * *"
+  schedule:
+    - cron: "0 0 */16 * *"
 
 permissions:
   contents: write
