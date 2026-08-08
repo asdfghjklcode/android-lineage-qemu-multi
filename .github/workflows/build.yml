@@ -8,8 +8,8 @@ on:
         required: true
         type: string
         default: "ubuntu-latest" 
-  schedule:
-    - cron: "0 0 */16 * *"
+#  schedule:
+#    - cron: "0 0 */16 * *"
 
 permissions:
   contents: write
@@ -57,11 +57,15 @@ jobs:
             boot_arm64only.img
             recovery_arm64only.img
             recovery_arm64only-userdebug.img
+            lineage-23.2-virtio_arm64only.img
+            lineage-23.2-virtio_arm64only.iso
             android/lineage/out/target/product/virtio_arm64only/*ota.zip
             android/lineage/out/target/product/virtio_arm64only/VirtualMachine/UTM/UTM-VM*.zip
             boot_x86_64.img
             recovery_x86_64.img
             recovery_x86_64-userdebug.img
+            lineage-23.2-virtio_x86_64.img
+            lineage-23.2-virtio_x86_64.iso
             android/lineage/out/target/product/virtio_x86_64/*ota.zip
             android/lineage/out/target/product/virtio_x86_64/VirtualMachine/UTM/UTM-VM*.zip
 
@@ -72,10 +76,14 @@ jobs:
             boot_arm64only.img
             recovery_arm64only.img
             recovery_arm64only-userdebug.img
+            lineage-23.2-virtio_arm64only.img
+            lineage-23.2-virtio_arm64only.iso
             android/lineage/out/target/product/virtio_arm64only/*ota.zip
             android/lineage/out/target/product/virtio_arm64only/VirtualMachine/UTM/UTM-VM*.zip
             boot_x86_64.img
             recovery_x86_64.img
             recovery_x86_64-userdebug.img
+            lineage-23.2-virtio_x86_64.img
+            lineage-23.2-virtio_x86_64.iso
             android/lineage/out/target/product/virtio_x86_64/*ota.zip
             android/lineage/out/target/product/virtio_x86_64/VirtualMachine/UTM/UTM-VM*.zip
