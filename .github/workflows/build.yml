@@ -27,10 +27,7 @@ jobs:
           fetch-tags: true
       - id: check
         run: |
-          source common.sh
-          if [ "${{ github.event_name }}" = workflow_dispatch ] || ! check_version; then
-            echo "build=true" >> "$GITHUB_OUTPUT"
-          fi
+          echo "build=true" >> "$GITHUB_OUTPUT"
 
   build:
     needs: check
