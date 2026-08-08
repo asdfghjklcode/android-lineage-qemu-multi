@@ -23,22 +23,25 @@ repo sync -c --prune --force-sync --retry-fetches=8 -j $(nproc)
 sed -i 's/-$(LINEAGE_BUILDTYPE)/-jqssun/g' vendor/lineage/config/version.mk
 
 source build/envsetup.sh
-export AB_OTA_UPDATER=false ROOMSERVICE_BRANCHES="lineage-23.1 lineage-23.0"
 
-breakfast virtio_x86_64 userdebug
+breakfast virtio_x86_64
+m espimage-install
+mv out/target/product/virtio_x86_64/lineage-23.2-*-virtio_x86_64.img ../../lineage-23.2-virtio_x86_64.img
+m isoimage-install
+mv out/target/product/virtio_x86_64/lineage-23.2-*-virtio_x86_64.iso ../../lineage-23.2-virtio_x86_64.iso
 m recoveryimage
 mv out/target/product/virtio_x86_64/recovery.img ../../recovery_x86_64-userdebug.img
-
-breakfast virtio_x86_64 user
 m vm-utm-zip otapackage
 mv out/target/product/virtio_x86_64/boot.img ../../boot_x86_64.img
 mv out/target/product/virtio_x86_64/recovery.img ../../recovery_x86_64.img
 
-breakfast virtio_arm64only userdebug
+breakfast virtio_arm64only
+m espimage-install
+mv out/target/product/virtio_x86_64/lineage-23.2-*-virtio_arm64only.img ../../lineage-23.2-virtio_arm64only.img
+m isoimage-install
+mv out/target/product/virtio_x86_64/lineage-23.2-*-virtio_arm64only.iso ../../lineage-23.2-virtio_arm64only.iso
 m recoveryimage
 mv out/target/product/virtio_arm64only/recovery.img ../../recovery_arm64only-userdebug.img
-
-breakfast virtio_arm64only user
 m vm-utm-zip otapackage
 mv out/target/product/virtio_arm64only/boot.img ../../boot_arm64only.img
 mv out/target/product/virtio_arm64only/recovery.img ../../recovery_arm64only.img
